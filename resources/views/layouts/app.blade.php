@@ -18,8 +18,11 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    {{-- bootstrap icon --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        /*
         html, body, #app {
             height: 100%;
             overflow: hidden !important;
@@ -28,12 +31,13 @@
             overflow-y: auto;
             height: 100%;
         }
+        */
     </style>
 
     @stack('css')
 </head>
 <body>
-<div id="app" class="h-100">
+<div id="app" class="">
     <nav class="navbar navbar-expand-md shadow bg-primary">
         <div class="container-fluid ">
             <a class="navbar-brand" href="{{ url('/') }}">

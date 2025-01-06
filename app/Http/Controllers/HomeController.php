@@ -29,7 +29,7 @@ class HomeController extends Controller
     {
         if (Auth::check()) {
 
-            $this->data['items'] = Prompt::all();
+            $this->data['items'] = Prompt::with('category')->get();
             $this->data['categories'] = PromptCategory::all();
 
             return view('home', $this->data);

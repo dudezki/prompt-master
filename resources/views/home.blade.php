@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @push('css')
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/dropzone.css')}}" />
     <style>
         .gallery-square {
             position: relative;
@@ -61,6 +62,15 @@
         .gallery-square.nsfw .nsfw_label {
             visibility: visible !important;
         }
+        .gallery-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            z-index: 3;
+        }
     </style>
 @endpush
 
@@ -79,15 +89,21 @@
         </div>
 
         <div class="d-flex flex-row gap-2">
-            <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddNew">Add New</button>
-            <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter">Filter</button>
+            <button class="btn text-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddNew">
+                <i class="bi bi-plus"></i>
+            </button>
+            <button class="btn text-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter">
+                <i class="bi bi-funnel"></i>
+            </button>
         </div>
     </div>
 
+
+
     <div class="row">
         @foreach($items as $item)
-            <div class="col-md-3">
-                <div style="min-height: 400px; max-height: 400px; width: 100%; background-image: url('{{ asset('assets/uploads/cards/1/cover.jpeg') }}'); background-size: cover;" class="gallery-square position-relative @if($item->is_nsfw) nsfw @endif">
+            <div class="col-md-2 mb-4">
+                <div style="min-height: 40vh; max-height: 50vh; width: 100%; background-image: url('{{ asset('assets/uploads/cards/1/cover.jpeg') }}'); background-size: cover;" class="gallery-square position-relative @if($item->is_nsfw) nsfw @endif">
                     <div class="overlay d-flex flex-column justify-content-center align-items-center">
                         <p class="gallery-text">{{ Str::limit($item->description, 100) }}</p>
                         <div class="d-flex flex-row gap-3">
@@ -101,10 +117,16 @@
                     <h5 class="gallery-title mx-3 mt-3 d-flex flex-row">{{ $item->title }}
                         <span class="ms-auto nsfw_label badge bg-danger">NSFW</span>
                     </h5>
+
+                    <a href="javascript:void(0);" class="gallery-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="{{$item->category->description}}">
+                        {!! $item->category->svg_icon !!}
+                    </a>
                 </div>
             </div>
         @endforeach
     </div>
+
+
 
     <!-- Offcanvas View -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasView" aria-labelledby="offcanvasViewLabel">
@@ -118,15 +140,40 @@
     </div>
 
     <!-- Offcanvas Add New -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel">
+    <form class="offcanvas offcanvas-end" style="width: 40%;" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel" method="post" action="/prompt/add" id="frm_add_prompt">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasAddNewLabel">Add New</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <!-- Add New form content here -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group mb-2">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="description">Description</label>
+                        <textarea rows="10" class="form-control" id="description" name="description" required></textarea>
+                    </div>
+
+
+                    <div class="form-group mb-2 dz-container">
+                        {{-- dropzone here --}}
+                        <div id="file-dropzone" class="dropzone"></div>
+                        <div id="file-upload-controls" class="dz-controls hidden" style="margin-top: 5px;">
+                            <button type="button" class="btn btn-sm btn-success" id="upload-files">Attach Files</button>
+                            <button type="button" class="btn btn-sm btn-danger" id="remove-files">Remove Files</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="offcanvas-footer p-4">
+            <button class="btn btn-primary">Save</button>
+        </div>
+    </form>
 
     <!-- Offcanvas Filter -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
@@ -142,9 +189,12 @@
 @endsection
 
 @push('js')
+    <script src="{{asset('assets/plugins/dropzone-min.js')}}"></script>
     <script>
         $(document).ready(function() {
-            $('#btn_show_content').on('click', function() {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+
+            $(document).on('click', '#btn_show_content', function() {
                 let parentDiv = $(this).closest('.gallery-square');
                 parentDiv.toggleClass('content-shown nsfw');
 
@@ -153,6 +203,74 @@
                 } else {
                     $(this).text('Show');
                 }
+            });
+
+
+            let uploadFiles = document.getElementById('upload-files');
+            let removeFiles = document.getElementById('remove-files');
+
+            Dropzone.autoDiscover = false;
+
+            let myDropzone = new Dropzone("#file-dropzone", {
+                url: "/internal/pm/upload.php",
+                autoProcessQueue: false,
+                parallelUploads: 100,
+                dictDefaultMessage: "Drag files here or click to upload an attachment(s).",
+                init: function() {
+                    this.on("addedfile", function(file) {
+                        console.log("File added:", file);
+
+                        let reader = new FileReader();
+                        reader.onload = function(event) {
+
+                            let hiddenInput = document.createElement("input");
+                            hiddenInput.type = "hidden";
+                            hiddenInput.name = "file_data[]";
+                            hiddenInput.value = event.target.result;
+
+                            document.getElementById("f").appendChild(hiddenInput);
+                        };
+
+                        reader.readAsDataURL(file);
+
+                        document.getElementById("file-upload-controls").classList.remove("hidden");
+                    });
+
+                    this.on("sending", function(file, xhr, formData) {
+                        //formData.append("dtr_log_id", '');
+                    });
+
+                    this.on("removedfile", function(file) {
+                        document.getElementById("file-upload-controls").classList.add("hidden");
+                    });
+
+                    this.on("success", function(file, response) {
+                        console.log("File uploaded successfully:", response);
+                    });
+
+                    this.on("error", function(file, errorMessage) {
+                        console.log("Error uploading file:", errorMessage);
+                    });
+
+                    document.addEventListener("paste", (event) => {
+                        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+                        for (let index in items) {
+                            let item = items[index];
+                            if (item.kind === "file") {
+                                let blob = item.getAsFile();
+                                this.addFile(blob);
+                            }
+                        }
+                    });
+                }
+            });
+
+            removeFiles.addEventListener("click", function() {
+                myDropzone.removeAllFiles();
+            });
+
+            uploadFiles.addEventListener("click", function() {
+                myDropzone.processQueue();
             });
         });
     </script>
