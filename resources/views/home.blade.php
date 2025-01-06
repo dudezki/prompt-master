@@ -169,8 +169,12 @@
                         <input type="text" class="form-control" id="title" name="title" required>
                     </div>
                     <div class="form-group mb-2">
-                        <label for="description">Description</label>
-                        <textarea rows="10" class="form-control" id="description" name="description" required></textarea>
+                        <label for="description">Positive Prompt</label>
+                        <textarea rows="5" class="form-control" id="description" name="description" required></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="description">Negative Prompt</label>
+                        <textarea rows="5" class="form-control" id="description" name="description" required></textarea>
                     </div>
 
 
@@ -183,9 +187,22 @@
                         </div>
                     </div>
 
+                    <div class="p-2 border rounded mb-3">
+                        <div class="form-group mb-2">
+                            <label for="tag_id" class="text-muted">Base Model</label>
+                            <input type="text" class="form-control" id="base_model_file_name" name="base_model_file_name" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="tag_id" class="text-muted">Local File</label>
+                            <input id="base_model_local_file" accept=".safetensors" type="file" class="form-control" name="base_model_local_file" required>
+                        </div>
+                    </div>
+
+
+
                     <div class="form-group mb-2">
                         <div class="d-flex flex-row gap-3">
-                            <label for="category_id" class="text-muted">Category</label>
+                            <label for="category_id" class="text-muted">Categories</label>
                             @foreach($categories as $category)
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="category_{{ $category->id }}" name="category_id[]" value="{{ $category->id }}">
@@ -200,8 +217,14 @@
                 </div>
             </div>
         </div>
-        <div class="offcanvas-footer p-4">
+        <div class="offcanvas-footer p-4 d-flex flex-row justify-content-between">
             <button class="btn btn-primary">Save</button>
+            <div class="d-flex flex-row gap-2">
+                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+                    <label class="btn btn-outline-warning" for="btncheck1">NSFW</label>
+                </div>
+            </div>
         </div>
     </form>
 
@@ -223,6 +246,13 @@
     <script>
         $(document).ready(function() {
             $('[data-bs-toggle="tooltip"]').tooltip();
+
+            // on change base_model_local_file get file name and add to base_model_file_name
+            $(document).on('change', '#base_model_local_file', function() {
+                let fileName = $(this).val().split('\\').pop().split('/').pop();
+                let fileNameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+                $('#base_model_file_name', document).val(fileNameWithoutExtension);
+            });
 
             $(document).on('click', '#btn_show_content', function() {
                 let parentDiv = $(this).closest('.gallery-square');
