@@ -25,6 +25,10 @@
             image-rendering: pixelated;
         }
 
+        .gallery-square.nsfw {
+            border: 1px solid red;
+        }
+
         .overlay {
             position: absolute;
             top: 0;
@@ -48,7 +52,9 @@
             margin-bottom: 0.5rem;
             z-index: 3;
             position: absolute;
-            width: 95%;
+            width: 100%;
+            padding: 5px 10px;
+            background: rgba(0,0,0,0.35)
         }
 
         .gallery-text {
@@ -58,6 +64,8 @@
         }
         .nsfw_label {
             visibility: hidden;
+            font-size: 13px;
+            padding: 3px 5px;
         }
         .gallery-square.nsfw .nsfw_label {
             visibility: visible !important;
@@ -121,12 +129,12 @@
                         </div>
                     </div>
 
-                    <div class="gallery-title d-flex flex-row gap-3 mx-3 mt-3 ">
+                    <div class="gallery-title d-flex flex-row gap-3">
                         <img class="rounded float-start rounded-circle" src="{{ asset('assets/uploads/cards/1/cover.jpeg') }}" alt="" style="width: 50px; height: 50px;">
-                        <div class="d-flex flex-column">
-                            <div class="d-flex flex-row justify-content-between gap-4">
+                        <div class="d-flex flex-column flex-grow-1">
+                            <div class="d-flex flex-row justify-content-between gap-2">
                                 <p class="mb-0 small">{{ $item->title }}</p>
-                                <span class="ms-auto nsfw_label badge bg-danger">NSFW</span>
+                                <span class="ms-auto nsfw_label badge bg-danger small align-self-center">NSFW</span>
                             </div>
                             <span class="text-muted " style="font-size: 12px;">DUDEZKIE</span>
                         </div>
@@ -156,11 +164,12 @@
     </div>
 
     <!-- Offcanvas Add New -->
-    <form class="offcanvas offcanvas-end" style="width: 40%;" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel" method="post" action="/prompt/add" id="frm_add_prompt">
+    <form class="offcanvas offcanvas-end" style="width: 35%;" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel" method="post" action="/prompt/add" id="frm_add_prompt">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasAddNewLabel">Add New</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
+        <hr class="mt-0">
         <div class="offcanvas-body">
             <div class="row">
                 <div class="col-md-12">
@@ -203,14 +212,21 @@
                     <div class="form-group mb-2">
                         <div class="d-flex flex-row gap-3">
                             <label for="category_id" class="text-muted">Categories</label>
+                            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                             @foreach($categories as $category)
-                                <div class="form-check">
+                                {{--<div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="category_{{ $category->id }}" name="category_id[]" value="{{ $category->id }}">
                                     <label class="form-check-label" for="category_{{ $category->id }}">
                                         {!! $category->svg_icon !!} {{ $category->description }}
                                     </label>
-                                </div>
+                                </div>--}}
+
+                                    <input type="checkbox" class="btn-check" id="btncheck_{{$category->id}}" autocomplete="off">
+                                    <label class="btn btn-sm btn-outline-secondary" for="btncheck_{{$category->id}}">{!! $category->svg_icon !!} {{ $category->description }}</label>
                             @endforeach
+
+
+                            </div>
                         </div>
                     </div>
 
@@ -220,6 +236,7 @@
         <div class="offcanvas-footer p-4 d-flex flex-row justify-content-between">
             <button class="btn btn-primary">Save</button>
             <div class="d-flex flex-row gap-2">
+                <span class="align-self-center">Activate this if the prompt is not safe for work.</span>
                 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                     <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
                     <label class="btn btn-outline-warning" for="btncheck1">NSFW</label>
