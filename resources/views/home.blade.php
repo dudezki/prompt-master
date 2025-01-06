@@ -107,9 +107,10 @@
                     <div class="overlay d-flex flex-column justify-content-center align-items-center">
                         <p class="gallery-text">{{ Str::limit($item->description, 100) }}</p>
                         <div class="d-flex flex-row gap-3">
-                            <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasView{{ $item->id }}">View</button>
+                            <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}">Delete</button>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasView{{ $item->id }}">View</button>
                             @if($item->is_nsfw)
-                                <button class="btn btn-danger btn-sm" id="btn_show_content">Show</button>
+                                <button class="btn btn-warning btn-sm" id="btn_show_content">Show</button>
                             @endif
                         </div>
                     </div>
