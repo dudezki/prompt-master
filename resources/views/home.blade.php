@@ -48,7 +48,7 @@
             margin-bottom: 0.5rem;
             z-index: 3;
             position: absolute;
-            width: 90%;
+            width: 95%;
         }
 
         .gallery-text {
@@ -107,17 +107,30 @@
                     <div class="overlay d-flex flex-column justify-content-center align-items-center">
                         <p class="gallery-text">{{ Str::limit($item->description, 100) }}</p>
                         <div class="d-flex flex-row gap-3">
-                            <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}">Delete</button>
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasView{{ $item->id }}">View</button>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasView{{ $item->id }}">
+                                <i class="bi bi-search"></i>
+                            </button>
                             @if($item->is_nsfw)
-                                <button class="btn btn-warning btn-sm" id="btn_show_content">Show</button>
+                                <button class="btn btn-warning btn-sm" id="btn_show_content">
+                                    <i class="bi bi-eye"></i>
+                                </button>
                             @endif
+                            <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </div>
 
-                    <h5 class="gallery-title mx-3 mt-3 d-flex flex-row">{{ $item->title }}
-                        <span class="ms-auto nsfw_label badge bg-danger">NSFW</span>
-                    </h5>
+                    <div class="gallery-title d-flex flex-row gap-3 mx-3 mt-3 ">
+                        <img class="rounded float-start rounded-circle" src="{{ asset('assets/uploads/cards/1/cover.jpeg') }}" alt="" style="width: 50px; height: 50px;">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-row justify-content-between gap-4">
+                                <p class="mb-0 small">{{ $item->title }}</p>
+                                <span class="ms-auto nsfw_label badge bg-danger">NSFW</span>
+                            </div>
+                            <span class="text-muted " style="font-size: 12px;">DUDEZKIE</span>
+                        </div>
+                    </div>
 
                     @foreach($item->tagging as $tagging)
                         <a href="javascript:void(0);" class="gallery-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $tagging->category->description }}">
@@ -216,9 +229,9 @@
                 parentDiv.toggleClass('content-shown nsfw');
 
                 if (parentDiv.hasClass('content-shown')) {
-                    $(this).text('Hide');
+                    $(this).html('<i class="bi bi-eye-slash"></i>');
                 } else {
-                    $(this).text('Show');
+                    $(this).html('<i class="bi bi-eye"></i>');
                 }
             });
 
