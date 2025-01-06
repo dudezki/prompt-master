@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Prompt extends Model
 {
     protected $fillable = [
-        'category_id',
         'title',
         'description',
         'visibility',
@@ -17,8 +16,15 @@ class Prompt extends Model
         'status',
     ];
 
-    public function category()
+    public function tagging()
     {
-        return $this->belongsTo(PromptCategory::class);
+        return $this->hasMany(PromptCategoryTagging::class);
+    }
+
+    public function getCategories()
+    {
+        return $this->tagging->map(function($tag) {
+            return $tag->category;
+        });
     }
 }

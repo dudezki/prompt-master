@@ -13,4 +13,8 @@ class PromptCategory extends Model
         'svg_icon',
         'status',
     ];
+
+    public function tagging(){
+        return $this->hasMany(PromptCategoryTagging::class);
+    }
 }

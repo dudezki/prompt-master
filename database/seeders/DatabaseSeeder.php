@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PromptCategorySeeder::class,
             PromptSeeder::class,
+            PromptCategoryTaggingSeeder::class,
         ]);
     }
 }

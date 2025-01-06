@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('prompts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('prompt_categories');
             $table->string('title');
             $table->text('description');
             $table->enum('visibility', ['public', 'private'])->default('public');

@@ -118,9 +118,11 @@
                         <span class="ms-auto nsfw_label badge bg-danger">NSFW</span>
                     </h5>
 
-                    <a href="javascript:void(0);" class="gallery-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="{{$item->category->description}}">
-                        {!! $item->category->svg_icon !!}
-                    </a>
+                    @foreach($item->tagging as $tagging)
+                        <a href="javascript:void(0);" class="gallery-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="{{ $tagging->category->description }}">
+                            {!! $tagging->category->svg_icon !!}
+                        </a>
+                    @endforeach
                 </div>
             </div>
         @endforeach
@@ -164,6 +166,20 @@
                         <div id="file-upload-controls" class="dz-controls hidden" style="margin-top: 5px;">
                             <button type="button" class="btn btn-sm btn-success" id="upload-files">Attach Files</button>
                             <button type="button" class="btn btn-sm btn-danger" id="remove-files">Remove Files</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <div class="d-flex flex-row gap-3">
+                            <label for="category_id" class="text-muted">Category</label>
+                            @foreach($categories as $category)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="category_{{ $category->id }}" name="category_id[]" value="{{ $category->id }}">
+                                    <label class="form-check-label" for="category_{{ $category->id }}">
+                                        {!! $category->svg_icon !!} {{ $category->description }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 
