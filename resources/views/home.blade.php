@@ -3,6 +3,7 @@
 @push('css')
     @cssLink('plugins/dropzone.css')
     @cssLink('pages/home/main.css')
+    @cssLink('plugins/bootstrap-tagsinput/0.8.0/css/bootstrap-tagsinput.css')
 @endpush
 
 @section('title', __('Dashboard'))
@@ -94,20 +95,65 @@
         </div>
         <hr class="m-0">
         <div class="offcanvas-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group mb-2">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Details</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tab_attachments" type="button" role="tab" aria-controls="tab_attachments" aria-selected="false">Attachment and Cover</button>
+                </li>
+            </ul>
+            <div class="tab-content py-3" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-2">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="description">Positive Prompt</label>
+                                <textarea rows="4" class="form-control" id="description" name="description" required></textarea>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="description">Negative Prompt</label>
+                                <textarea rows="2" class="form-control" id="description" name="description" required></textarea>
+                            </div>
+
+                            <div class="p-2 border rounded mb-3">
+                                <div class="form-group mb-2">
+                                    <label for="tag_id" class="text-muted">Base Model</label>
+                                    <input type="text" class="form-control" id="base_model_file_name" name="base_model_file_name" required>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="tag_id" class="text-muted">Local File</label>
+                                    <input id="base_model_local_file" accept=".safetensors" type="file" class="form-control" name="base_model_local_file" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="tools_tagging">Tool Used</label>
+                                <input class="form-control" type="text" value="lora1,lora2" id="tags_input" />
+                            </div>
+
+
+                            <div class="form-group mb-2">
+                                <div class="d-flex flex-row gap-3">
+                                    <label for="category_id" class="text-muted">Categories</label>
+                                    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                        @foreach($categories as $category)
+                                            <input type="checkbox" class="btn-check" id="btncheck_{{$category->id}}" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-secondary" for="btncheck_{{$category->id}}">{!! $category->svg_icon !!} {{ $category->description }}</label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="form-group mb-2">
-                        <label for="description">Positive Prompt</label>
-                        <textarea rows="4" class="form-control" id="description" name="description" required></textarea>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="description">Negative Prompt</label>
-                        <textarea rows="2" class="form-control" id="description" name="description" required></textarea>
-                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab_attachments">
+
 
                     <div class="form-group mb-2 dz-container">
                         {{-- dropzone here --}}
@@ -117,38 +163,9 @@
                             <button type="button" class="btn btn-sm btn-danger" id="remove-files">Remove Files</button>
                         </div>
                     </div>
-
-                    <div class="p-2 border rounded mb-3">
-                        <div class="form-group mb-2">
-                            <label for="tag_id" class="text-muted">Base Model</label>
-                            <input type="text" class="form-control" id="base_model_file_name" name="base_model_file_name" required>
-                        </div>
-                        <div class="form-group ">
-                            <label for="tag_id" class="text-muted">Local File</label>
-                            <input id="base_model_local_file" accept=".safetensors" type="file" class="form-control" name="base_model_local_file" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="tools_tagging">Tool Used</label>
-                        <input class="form-control" type="text" id="select2_tool_tagging" />
-                    </div>
-
-
-                    <div class="form-group mb-2">
-                        <div class="d-flex flex-row gap-3">
-                            <label for="category_id" class="text-muted">Categories</label>
-                            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                @foreach($categories as $category)
-                                    <input type="checkbox" class="btn-check" id="btncheck_{{$category->id}}" autocomplete="off">
-                                    <label class="btn btn-sm btn-outline-secondary" for="btncheck_{{$category->id}}">{!! $category->svg_icon !!} {{ $category->description }}</label>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
+
         </div>
         <hr class="m-0">
         <div class="offcanvas-footer p-4 d-flex flex-row justify-content-between">
@@ -179,6 +196,7 @@
 @push('js')
     @scriptLink('plugins/dropzone-min.js')
     @scriptLink('plugins/select2/2.4.0.13/js/select2.full.min.js')
+    @scriptLink('plugins/bootstrap-tagsinput/0.8.0/js/bootstrap-tagsinput.min.js')
     @scriptLink('pages/home/main.js')
 
     <script type="text/javascript">

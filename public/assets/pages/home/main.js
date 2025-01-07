@@ -94,58 +94,9 @@ const MAIN = function() {
     }
 
     let handlerSelect2Tools = () => {
-        $('#select2_tool_tagging', document).select2({
-            theme: 'bootstrap-5',
-            dropdownParent: $('#select2_tool_tagging').closest('.form-group'),
-            ajax: {
-                url: '/api/tools', // Replace with your API endpoint
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        q: params.term, // search term
-                        page: params.page
-                    };
-                },
-                processResults: function (data, params) {
-                    params.page = params.page || 1;
-
-                    return {
-                        results: data.items,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                },
-                cache: true
-            },
-            tags: true,
-            createTag: function (params) {
-                var term = $.trim(params.term);
-
-                if (term === '') {
-                    return null;
-                }
-
-                return {
-                    id: term,
-                    text: term,
-                    newTag: true // add additional parameters
-                };
-            },
-            templateResult: function (data) {
-                var $result = $("<span></span>");
-
-                $result.text(data.text);
-
-                if (data.newTag) {
-                    $result.append(" <em>(new)</em>");
-                }
-
-                return $result;
-            }
-        });
+        $('#tags_input', document).tagsinput();
     }
+
     return {
         init: handlerInit,
     }
