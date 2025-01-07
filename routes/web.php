@@ -16,3 +16,7 @@ Route::get('/migrate', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::prefix('api')->group(function() {
+    Route::resource('tools', \App\Http\Controllers\PromptToolsController::class);
+});

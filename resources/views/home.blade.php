@@ -1,85 +1,8 @@
 @extends('layouts.app')
 
 @push('css')
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/dropzone.css')}}" />
-    <style>
-        .gallery-square {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(131, 109, 109, 0.55);
-            border-radius: 5px;
-            background-size: cover;
-            background-position: top center;
-        }
-
-        .gallery-square.nsfw::before {
-            content: '';
-            position: absolute;
-            top: -5%;
-            left: -5%;
-            width: 110%;
-            height: 110%;
-            background: inherit;
-            filter: blur(30px) contrast(200%) saturate(50%) brightness(80%) drop-shadow(0 0 10px black);
-            z-index: 1;
-            image-rendering: pixelated;
-        }
-
-        .gallery-square.nsfw {
-            border: 1px solid red;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 2;
-        }
-
-        .gallery-square:hover .overlay {
-            opacity: 1;
-        }
-
-        .gallery-title {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            z-index: 3;
-            position: absolute;
-            width: 100%;
-            padding: 5px 10px;
-            background: rgba(0,0,0,0.35)
-        }
-
-        .gallery-text {
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            z-index: 3;
-        }
-        .nsfw_label {
-            visibility: hidden;
-            font-size: 13px;
-            padding: 3px 5px;
-        }
-        .gallery-square.nsfw .nsfw_label {
-            visibility: visible !important;
-        }
-        .gallery-icon {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            z-index: 3;
-        }
-    </style>
+    @cssLink('plugins/dropzone.css')
+    @cssLink('pages/home/main.css')
 @endpush
 
 @section('title', __('Dashboard'))
@@ -169,7 +92,7 @@
             <h5 class="offcanvas-title" id="offcanvasAddNewLabel">Add New</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <hr class="mt-0">
+        <hr class="m-0">
         <div class="offcanvas-body">
             <div class="row">
                 <div class="col-md-12">
@@ -185,7 +108,6 @@
                         <label for="description">Negative Prompt</label>
                         <textarea rows="2" class="form-control" id="description" name="description" required></textarea>
                     </div>
-
 
                     <div class="form-group mb-2 dz-container">
                         {{-- dropzone here --}}
@@ -207,25 +129,20 @@
                         </div>
                     </div>
 
+                    <div class="form-group mb-3">
+                        <label for="tools_tagging">Tool Used</label>
+                        <input class="form-control" type="text" id="select2_tool_tagging" />
+                    </div>
 
 
                     <div class="form-group mb-2">
                         <div class="d-flex flex-row gap-3">
                             <label for="category_id" class="text-muted">Categories</label>
                             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                            @foreach($categories as $category)
-                                {{--<div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="category_{{ $category->id }}" name="category_id[]" value="{{ $category->id }}">
-                                    <label class="form-check-label" for="category_{{ $category->id }}">
-                                        {!! $category->svg_icon !!} {{ $category->description }}
-                                    </label>
-                                </div>--}}
-
+                                @foreach($categories as $category)
                                     <input type="checkbox" class="btn-check" id="btncheck_{{$category->id}}" autocomplete="off">
                                     <label class="btn btn-sm btn-outline-secondary" for="btncheck_{{$category->id}}">{!! $category->svg_icon !!} {{ $category->description }}</label>
-                            @endforeach
-
-
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -233,6 +150,7 @@
                 </div>
             </div>
         </div>
+        <hr class="m-0">
         <div class="offcanvas-footer p-4 d-flex flex-row justify-content-between">
             <button class="btn btn-primary">Save</button>
             <div class="d-flex flex-row gap-2">
@@ -259,96 +177,15 @@
 @endsection
 
 @push('js')
-    <script src="{{asset('assets/plugins/dropzone-min.js')}}"></script>
-    <script>
+    @scriptLink('plugins/dropzone-min.js')
+    @scriptLink('plugins/select2/2.4.0.13/js/select2.full.min.js')
+    @scriptLink('pages/home/main.js')
+
+    <script type="text/javascript">
         $(document).ready(function() {
-            $('[data-bs-toggle="tooltip"]').tooltip();
-
-            // on change base_model_local_file get file name and add to base_model_file_name
-            $(document).on('change', '#base_model_local_file', function() {
-                let fileName = $(this).val().split('\\').pop().split('/').pop();
-                let fileNameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
-                $('#base_model_file_name', document).val(fileNameWithoutExtension);
-            });
-
-            $(document).on('click', '#btn_show_content', function() {
-                let parentDiv = $(this).closest('.gallery-square');
-                parentDiv.toggleClass('content-shown nsfw');
-
-                if (parentDiv.hasClass('content-shown')) {
-                    $(this).html('<i class="bi bi-eye-slash"></i>');
-                } else {
-                    $(this).html('<i class="bi bi-eye"></i>');
-                }
-            });
-
-
-            let uploadFiles = document.getElementById('upload-files');
-            let removeFiles = document.getElementById('remove-files');
-
-            Dropzone.autoDiscover = false;
-
-            let myDropzone = new Dropzone("#file-dropzone", {
-                url: "/internal/pm/upload.php",
-                autoProcessQueue: false,
-                parallelUploads: 100,
-                dictDefaultMessage: "Drag files here or click to upload an attachment(s).",
-                init: function() {
-                    this.on("addedfile", function(file) {
-                        console.log("File added:", file);
-
-                        let reader = new FileReader();
-                        reader.onload = function(event) {
-
-                            let hiddenInput = document.createElement("input");
-                            hiddenInput.type = "hidden";
-                            hiddenInput.name = "file_data[]";
-                            hiddenInput.value = event.target.result;
-
-                            document.getElementById("f").appendChild(hiddenInput);
-                        };
-
-                        reader.readAsDataURL(file);
-
-                        document.getElementById("file-upload-controls").classList.remove("hidden");
-                    });
-
-                    this.on("sending", function(file, xhr, formData) {
-                        //formData.append("dtr_log_id", '');
-                    });
-
-                    this.on("removedfile", function(file) {
-                        document.getElementById("file-upload-controls").classList.add("hidden");
-                    });
-
-                    this.on("success", function(file, response) {
-                        console.log("File uploaded successfully:", response);
-                    });
-
-                    this.on("error", function(file, errorMessage) {
-                        console.log("Error uploading file:", errorMessage);
-                    });
-
-                    document.addEventListener("paste", (event) => {
-                        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
-                        for (let index in items) {
-                            let item = items[index];
-                            if (item.kind === "file") {
-                                let blob = item.getAsFile();
-                                this.addFile(blob);
-                            }
-                        }
-                    });
-                }
-            });
-
-            removeFiles.addEventListener("click", function() {
-                myDropzone.removeAllFiles();
-            });
-
-            uploadFiles.addEventListener("click", function() {
-                myDropzone.processQueue();
-            });
-        });
+            MAIN.init();
+        })
     </script>
 @endpush
+
+

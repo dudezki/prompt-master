@@ -1,0 +1,56 @@
+
+[data-bs-theme="dark"] .select2-container--bootstrap-5 {
+    background-color: var(--bs-body-bg);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .selection {
+    background-color: var(--bs-body-bg);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection--multiple {
+    display: flex;
+    align-items: center;
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered {
+    min-width: fit-content;
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice {
+    margin-bottom: 0;
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection--single {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+    color: var(--bs-body-color);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection {
+    background-color: var(--bs-body-bg);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection__choice__display {
+    color: var(--bs-body-color);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection__choice__remove {
+    color: var(--bs-danger);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-search {
+    background-color: var(--bs-body-bg);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-search__field {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-dropdown {
+    background-color: var(--bs-body-bg);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-dropdown .select2-search {
+    background-color: var(--bs-body-bg);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-dropdown .select2-search__field {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-results {
+    background-color: var(--bs-body-bg);
+}
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-results__options {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}

@@ -20,6 +20,10 @@
 
     @cssLink('plugins/bootstrap/5.3.3/css/bootstrap.min.css')
     @cssLink('plugins/bootstrap-icons/1.11.0/bootstrap-icons.min.css')
+    @cssLink('plugins/select2/2.4.0.13/css/select2.min.css')
+    @cssLink('plugins/select2/2.4.0.13/css/select2-bootstrap-5-theme.min.css')
+
+    @cssLink('global/css/custom.css')
 
     <style>
         /*
