@@ -19,6 +19,7 @@
     background: inherit;
     z-index: 1;
     image-rendering: pixelated;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .gallery-square.nsfw::before {
