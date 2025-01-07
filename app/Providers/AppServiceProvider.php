@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::directive('cssLink', function ($file) {
+            return "<?php echo '<link href=\"' . asset('assets/' . $file . '?v=' .config('app.version')) . '\" rel=\"stylesheet\" />' . PHP_EOL; ?>";
+        });
+
+        Blade::directive('scriptLink', function ($file) {
+            return "<?php echo '<script src=\"' . asset('assets/' . $file . '?v=' .config('app.version')) . '\"></script>' . PHP_EOL; ?>";
+        });
     }
 }

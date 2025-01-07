@@ -14,14 +14,14 @@ class PromptSeeder extends Seeder
     public function run(): void
     {
         $prompts = [
-            ['title' => 'Example Prompt 1', 'description' => 'This is an example prompt for text-to-image.', 'created_by' => 1, 'updated_by' => 1],
-            ['title' => 'Example Prompt 2', 'description' => 'This is an example prompt for image-to-image.', 'created_by' => 1, 'updated_by' => 1],
-            ['title' => 'Example Prompt 3', 'description' => 'This is an example prompt for text-to-video.', 'created_by' => 1, 'updated_by' => 1],
-            ['title' => 'Example Prompt 4', 'description' => 'This is an example prompt for image-to-video.', 'created_by' => 1, 'updated_by' => 1, 'is_nsfw' => 1],
-            ['title' => 'Example Prompt 3', 'description' => 'This is an example prompt for text-to-video.', 'created_by' => 1, 'updated_by' => 1],
-            ['title' => 'Example Prompt 4', 'description' => 'This is an example prompt for image-to-video.', 'created_by' => 1, 'updated_by' => 1, 'is_nsfw' => 1],
-            ['title' => 'Example Prompt 1', 'description' => 'This is an example prompt for text-to-image.', 'created_by' => 1, 'updated_by' => 1],
-            ['title' => 'Example Prompt 2', 'description' => 'This is an example prompt for image-to-image.', 'created_by' => 1, 'updated_by' => 1],
+            ['title' => 'Example Prompt 1', 'positive_prompt' => 'This is an example prompt for text-to-image.', 'created_by' => 1, 'updated_by' => 1],
+            ['title' => 'Example Prompt 2', 'positive_prompt' => 'This is an example prompt for image-to-image.', 'created_by' => 1, 'updated_by' => 1],
+            ['title' => 'Example Prompt 3', 'positive_prompt' => 'This is an example prompt for text-to-video.', 'created_by' => 1, 'updated_by' => 1],
+            ['title' => 'Example Prompt 4', 'positive_prompt' => 'This is an example prompt for image-to-video.', 'created_by' => 1, 'updated_by' => 1, 'is_nsfw' => 1],
+            ['title' => 'Example Prompt 3', 'positive_prompt' => 'This is an example prompt for text-to-video.', 'created_by' => 1, 'updated_by' => 1],
+            ['title' => 'Example Prompt 4', 'positive_prompt' => 'This is an example prompt for image-to-video.', 'created_by' => 1, 'updated_by' => 1, 'is_nsfw' => 1],
+            ['title' => 'Example Prompt 1', 'positive_prompt' => 'This is an example prompt for text-to-image.', 'created_by' => 1, 'updated_by' => 1],
+            ['title' => 'Example Prompt 2', 'positive_prompt' => 'This is an example prompt for image-to-image.', 'created_by' => 1, 'updated_by' => 1],
         ];
 
         foreach ($prompts as $prompt) {

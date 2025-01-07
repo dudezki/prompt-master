@@ -27,4 +27,11 @@ class Prompt extends Model
             return $tag->category;
         });
     }
+
+    // Other model properties and methods
+
+    public function toolTagging()
+    {
+        return $this->hasMany(PromptToolTagging::class, 'prompt_tool_taggings', 'prompt_id', 'prompt_tool_id');
+    }
 }

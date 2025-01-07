@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('prompts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->text('positive_prompt')->nullable();
+            $table->text('negative_prompt')->nullable();
             $table->enum('visibility', ['public', 'private'])->default('public');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreignId('created_by')->constrained('users');

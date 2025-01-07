@@ -179,11 +179,11 @@
                     </div>
                     <div class="form-group mb-2">
                         <label for="description">Positive Prompt</label>
-                        <textarea rows="5" class="form-control" id="description" name="description" required></textarea>
+                        <textarea rows="4" class="form-control" id="description" name="description" required></textarea>
                     </div>
                     <div class="form-group mb-3">
                         <label for="description">Negative Prompt</label>
-                        <textarea rows="5" class="form-control" id="description" name="description" required></textarea>
+                        <textarea rows="2" class="form-control" id="description" name="description" required></textarea>
                     </div>
 
 
