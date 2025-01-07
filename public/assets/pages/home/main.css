@@ -5,9 +5,11 @@
     border-radius: 5px;
     background-size: cover;
     background-position: top center;
+    transition: border 0.3s, filter 0.3s;
 }
 
-.gallery-square.nsfw::before {
+.gallery-square::before {
+    opacity: 0;
     content: '';
     position: absolute;
     top: -5%;
@@ -15,9 +17,14 @@
     width: 110%;
     height: 110%;
     background: inherit;
-    filter: blur(30px) contrast(200%) saturate(50%) brightness(80%) drop-shadow(0 0 10px black);
     z-index: 1;
     image-rendering: pixelated;
+}
+
+.gallery-square.nsfw::before {
+    filter: blur(30px) contrast(200%) saturate(50%) brightness(80%) drop-shadow(0 0 10px black);
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .gallery-square.nsfw {
