@@ -1,11 +1,15 @@
 @extends('layouts.app')
+@push('css')
 
+@endpush
 @section('content')
-    <div class="w-50 mx-auto my-auto d-flex align-items-center" style="height: 80vh;">
-        <div class="card w-100">
-            <div class="card-header">{{ __('Login') }}</div>
 
-            <div class="card-body">
+
+    <div class=" mx-auto my-auto d-flex align-items-center" style="width: 55vh; height: 80vh;">
+        <div class="card w-100">
+
+            <div class="card-body p-5 shadow-lg bg-black rounded">
+                <img src="@asset('images/prompt-master-logo.png')" class="img-fluid mb-4" alt="Prompt Master Logo">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 
