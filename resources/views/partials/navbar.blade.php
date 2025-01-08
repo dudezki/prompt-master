@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md shadow py-1" style="background-color: #000">
+<nav class="navbar navbar-expand-md shadow py-1 fixed-top" style="background-color: #000">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ url('/') }}" >
             <img src="@asset('images/prompt-master-logo.png')" width="170" height="40"  alt="{{ config('app.name', 'Laravel') }}"/>
@@ -21,21 +21,20 @@
                     <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddNew" class="nav-link me-3 px-4 bg-primary rounded-1" href="{{ route('home') }}">Create</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex flex-row align-items-center p-0 gap-2" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="d-flex flex-row gap-2 align-self-center">
-                                    <picture>
-                                        @if(Auth::user() && Auth::user()->avatar)
-                                            <img src="data:image/png;base64,{{ Auth::user()->avatar }}" alt="User Avatar" class="rounded-circle" width="40" height="40">
-                                        @else
-                                            <img src="{{ asset('assets/images/default-avatar.png') }}" alt="Default Avatar" class="rounded-circle" width="40" height="40">
-                                        @endif
-                                    </picture>
-                                    <span class="d-flex flex-column">
-                                        <span>{{ Auth::user()->username }}</span>
-                                        <span class="text-muted" style="font-size: 11px;">{{Auth::user()->name}}</span>
-                                    </span>
-                                </span>
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex flex-row align-items-center p-0 gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="d-flex flex-row gap-2 align-self-center">
+                            <picture>
+                                @if(Auth::user() && Auth::user()->avatar)
+                                    <img src="data:image/png;base64,{{ Auth::user()->avatar }}" alt="User Avatar" class="rounded-circle" width="40" height="40">
+                                @else
+                                    <img src="{{ asset('assets/images/default-avatar.png') }}" alt="Default Avatar" class="rounded-circle" width="40" height="40">
+                                @endif
+                            </picture>
+                            <span class="d-flex flex-column">
+                                <span>{{ Auth::user()->username }}</span>
+                                <span class="text-muted" style="font-size: 11px;">{{Auth::user()->name}}</span>
+                            </span>
+                        </span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

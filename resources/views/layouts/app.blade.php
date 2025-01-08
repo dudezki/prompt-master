@@ -45,19 +45,6 @@
 
     @cssLink('global/css/custom.css')
 
-    <style>
-        /*
-        html, body, #app {
-            height: 100%;
-            overflow: hidden !important;
-        }
-        main {
-            overflow-y: auto;
-            height: 100%;
-        }
-        */
-    </style>
-
     @stack('css')
 </head>
 <body>
