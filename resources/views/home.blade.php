@@ -53,14 +53,20 @@
                         </div>
                     </div>
 
-                    <div class="gallery-title d-flex flex-row gap-3">
-                        <img class="rounded float-start rounded-circle" src="{{ asset('assets/uploads/cards/1/cover.jpeg') }}" alt="" style="width: 50px; height: 50px;">
-                        <div class="d-flex flex-column flex-grow-1">
+                    <div class="gallery-title d-flex flex-row gap-2">
+                        <picture class="rounded float-start rounded-circle align-self-center">
+                            @if($item->author_avatar)
+                                <img src="data:image/png;base64,{{ $item->author_avatar }}" alt="User Avatar" class="rounded-circle" width="40" height="40">
+                            @else
+                                <img src="{{ asset('assets/images/default-avatar.png') }}" alt="Default Avatar" class="rounded-circle" width="40" height="40">
+                            @endif
+                        </picture>
+                        <div class="d-flex flex-column gap-0 flex-grow-1 align-self-center">
                             <div class="d-flex flex-row justify-content-between gap-2">
-                                <p class="mb-0 small">{{ $item->title }}</p>
+                                <p class="mb-0 @if($item->is_nsfw) text-danger @else text-info @endif" style="font-size: 13px;">{{ $item->title }}</p>
                                 <span class="ms-auto nsfw_label badge bg-danger small align-self-center">NSFW</span>
                             </div>
-                            <span class="text-muted " style="font-size: 12px;">DUDEZKIE</span>
+                            <span class="text-muted " style="font-size: 12px;">{{ $item->author }}</span>
                         </div>
                     </div>
 

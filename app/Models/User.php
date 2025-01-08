@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\People;
 
 class User extends Authenticatable
 {
@@ -18,9 +19,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'username', 'password', 'person_id',
     ];
 
     /**
@@ -41,8 +40,34 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'username_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
+
+    public function person()
+    {
+        return $this->belongsTo(People::class);
+    }
+
+    public function getNameAttribute()
+    {
+        return "{$this->person->first_name} {$this->person->last_name}";
+    }
+
+    public function avatars()
+    {
+        return $this->hasMany(UserAvatar::class);
+    }
+
+    public function current_avatar()
+    {
+        return $this->hasOne(UserAvatar::class)->where('is_current', 1);
+    }
+
+    public function getAvatarAttribute()
+    {
+        return base64_encode($this->current_avatar->avatar);
+    }
+
 }

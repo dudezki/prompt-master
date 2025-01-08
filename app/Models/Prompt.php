@@ -34,4 +34,20 @@ class Prompt extends Model
     {
         return $this->hasMany(PromptToolTagging::class, 'prompt_tool_taggings', 'prompt_id', 'prompt_tool_id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getAuthorAttribute() {
+        return $this->user->username;
+    }
+
+    public function getAuthorNameAttribute() {
+        return $this->user->name;
+    }
+
+    public function getAuthorAvatarAttribute() {
+        return $this->user->avatar;
+    }
 }

@@ -50,7 +50,9 @@
                     - @yield('title')
                 @endif
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -77,8 +79,21 @@
                         @endif
                     @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex flex-row align-items-center p-0 gap-2" href="#" role="button"
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex flex-row gap-2 align-self-center">
+                                    <picture>
+                                        @if(Auth::user() && Auth::user()->avatar)
+                                            <img src="data:image/png;base64,{{ Auth::user()->avatar }}" alt="User Avatar" class="rounded-circle" width="40" height="40">
+                                        @else
+                                            <img src="{{ asset('assets/images/default-avatar.png') }}" alt="Default Avatar" class="rounded-circle" width="40" height="40">
+                                        @endif
+                                    </picture>
+                                    <span class="d-flex flex-column">
+                                        <span>{{ Auth::user()->username }}</span>
+                                        <span class="text-muted" style="font-size: 11px;">{{Auth::user()->name}}</span>
+                                    </span>
+                                </span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
