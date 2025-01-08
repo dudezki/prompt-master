@@ -67,7 +67,7 @@ class User extends Authenticatable
 
     public function getAvatarAttribute()
     {
-        return base64_encode($this->current_avatar->avatar);
+        return $this->current_avatar->avatar;
     }
 
 }

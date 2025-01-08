@@ -1,10 +1,13 @@
 @extends('layouts.app')
 @push('css')
-
+    <style>
+        body {
+            background-image: url('@asset("images/login-bg.jpg")');
+            background-size: cover;
+        }
+    </style>
 @endpush
 @section('content')
-
-
     <div class=" mx-auto my-auto d-flex align-items-center" style="width: 55vh; height: 80vh;">
         <div class="card w-100">
 

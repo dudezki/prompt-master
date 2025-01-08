@@ -1,3 +1,4 @@
+
 <!-- Offcanvas Add New -->
 <form class="offcanvas offcanvas-end" style="width: 35%;" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel" method="post" action="/prompt/add" id="frm_add_prompt">
     <div class="offcanvas-header">
@@ -69,6 +70,31 @@
                 <div class="form-group mb-2 dz-container">
                     {{-- dropzone here --}}
                     <div id="file-dropzone" class="dropzone"></div>
+
+                    <div class="dropzone-preview-template d-none" id="file-previews-template">
+                        <a class="dz-preview dz-file-preview" href="javascript:void(0);" data-bs-toggle="tooltip" title="Click to make this as a default cover">
+                            <div class="dz-image">
+                                <img data-dz-thumbnail />
+                            </div>
+                            <div class="dz-details">
+                                <div class="dz-size"><span data-dz-size></span></div>
+                                <div class="dz-filename"><span data-dz-name></span></div>
+                            </div>
+
+                            <!-- Add radio input for cover image -->
+                            <div class="form-check dz-radio">
+                                <input class="form-check-input" type="radio" name="is_cover" value="0">
+                            </div>
+
+                            <!-- Add delete button -->
+                            <button type="button" class="dz-remove">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="dropzone-previews"></div>
+
                     <div id="file-upload-controls" class="dz-controls hidden" style="margin-top: 5px;">
                         <button type="button" class="btn btn-sm btn-success" id="upload-files">Attach Files</button>
                         <button type="button" class="btn btn-sm btn-danger" id="remove-files">Remove Files</button>

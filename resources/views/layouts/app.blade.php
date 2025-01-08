@@ -40,6 +40,8 @@
     @cssLink('plugins/bootstrap-icons/1.11.0/bootstrap-icons.min.css')
     @cssLink('plugins/select2/2.4.0.13/css/select2.min.css')
     @cssLink('plugins/select2/2.4.0.13/css/select2-bootstrap-5-theme.min.css')
+    <!-- Lightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
     @cssLink('global/css/custom.css')
 

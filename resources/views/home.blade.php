@@ -53,9 +53,9 @@
                     <div class="gallery-title d-flex flex-row gap-2">
                         <picture class="rounded float-start rounded-circle align-self-center">
                             @if($item->author_avatar)
-                                <img src="data:image/png;base64,{{ $item->author_avatar }}" alt="User Avatar" class="rounded-circle" width="40" height="40">
+                                <img src="data:image/png;base64,{{ $item->author_avatar }}" alt="User Avatar" class="rounded-circle shadow-sm" width="40" height="40">
                             @else
-                                <img src="{{ asset('assets/images/default-avatar.png') }}" alt="Default Avatar" class="rounded-circle" width="40" height="40">
+                                <img src="{{ asset('assets/images/default-avatar.png') }}" alt="Default Avatar" class="rounded-circle shadow-sm" width="40" height="40">
                             @endif
                         </picture>
                         <div class="d-flex flex-column gap-0 flex-grow-1 align-self-center">
@@ -109,6 +109,8 @@
     @scriptLink('plugins/select2/2.4.0.13/js/select2.full.min.js')
     @scriptLink('plugins/bootstrap-tagsinput/0.8.0/js/bootstrap-tagsinput.min.js')
     @scriptLink('pages/home/main.js')
+    <!-- Lightbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

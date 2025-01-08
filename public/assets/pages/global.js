@@ -21,24 +21,29 @@ const GLOBAL = function() {
                 autoProcessQueue: false,
                 parallelUploads: 100,
                 dictDefaultMessage: "Drag files here or click to upload an attachment(s).",
+                previewTemplate: document.querySelector('#file-previews-template').innerHTML,
                 init: function() {
                     this.on("addedfile", function(file) {
+                        file.previewElement.dropzoneFile = file;
                         console.log("File added:", file);
 
                         let reader = new FileReader();
                         reader.onload = function(event) {
-
+                            let base64String = event.target.result.split(',')[1]; // Remove the prefix
                             let hiddenInput = document.createElement("input");
                             hiddenInput.type = "hidden";
-                            hiddenInput.name = "file_data[]";
-                            hiddenInput.value = event.target.result;
+                            hiddenInput.name = "file_blob[]";
+                            hiddenInput.className = "file-blob";
+                            hiddenInput.value = base64String;
 
-                            document.getElementById("f").appendChild(hiddenInput);
+                            file.previewElement.appendChild(hiddenInput);
                         };
 
                         reader.readAsDataURL(file);
 
                         document.getElementById("file-upload-controls").classList.remove("hidden");
+
+                        $('[data-bs-toggle="tooltip"]', document).tooltip();
                     });
 
                     this.on("sending", function(file, xhr, formData) {
@@ -66,6 +71,27 @@ const GLOBAL = function() {
                                 this.addFile(blob);
                             }
                         }
+                    });
+
+                    // $(document).on('click', '.dz-preview', function() {
+                    //     var imgSrc = $(this).find('img').attr('src');
+                    //     lightbox.open(imgSrc);
+                    // });
+
+                    // Handle delete button click
+                    $(document).on('click', '.dz-remove', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        let file = $(this).closest('.dz-preview').get(0).dropzoneFile;
+                        $(this).closest('.dz-preview').fadeOut(300, function() {
+                            myDropzone.removeFile(file);
+                        });
+                    });
+
+                    $(document).on('click', '.dz-preview', function() {
+                        $('.dz-preview', document).removeClass('image-preview-selected');
+                        $(this).addClass('image-preview-selected');
+                        $(this).find('input[type="radio"]').prop('checked', true);
                     });
                 }
             });
