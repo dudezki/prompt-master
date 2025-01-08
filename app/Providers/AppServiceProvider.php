@@ -20,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Blade::directive('asset', function ($file) {
+            return "<?php echo asset('assets/' . $file . '?v=' . config('app.version')); ?>";
+        });
+
         Blade::directive('cssLink', function ($file) {
             return "<?php echo '<link href=\"' . asset('assets/' . $file . '?v=' .config('app.version')) . '\" rel=\"stylesheet\" />' . PHP_EOL; ?>";
         });
