@@ -1,6 +1,6 @@
 
 <!-- Offcanvas Add New -->
-<form class="offcanvas offcanvas-end" style="width: 35%;" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel" method="post" action="/prompt/add" id="frm_add_prompt">
+<form class="offcanvas offcanvas-end" style="width: 35%;" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel" method="post" action="/prompt/add">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasAddNewLabel">Add New</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -106,7 +106,7 @@
     </div>
     <hr class="m-0">
     <div class="offcanvas-footer p-4 d-flex flex-row justify-content-between">
-        <button class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">Save</button>
         <div class="d-flex flex-row gap-2">
             <span class="align-self-center">Activate this if the prompt is not safe for work.</span>
             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">

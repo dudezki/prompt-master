@@ -9,6 +9,7 @@ const GLOBAL = function() {
             });
             this.initCreateDropzone();
             this.initCreateTagsinput();
+            this.initCreatePromptForm();
         },
         initCreateDropzone: function() {
             let uploadFiles = document.getElementById('upload-files');
@@ -106,6 +107,23 @@ const GLOBAL = function() {
         },
         initCreateTagsinput: function() {
             $('#tags_input', document).tagsinput();
+        },
+        initCreatePromptForm: function() {
+            $(document).on('submit', '#offcanvasAddNew', function(e) {
+               e.preventDefault();
+                let form = $(this);
+                let formData = new FormData(form[0]);
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response);
+                    }
+                })
+            });
         },
         init: function() {
             this.initCreatePrompt();
