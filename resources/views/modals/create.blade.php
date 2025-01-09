@@ -46,7 +46,7 @@
 
                         <div class="form-group mb-3">
                             <label for="tools_tagging">Tool Used</label>
-                            <input class="form-control" type="text" value="lora1,lora2" id="tags_input" />
+                            <input name="use_tools" class="form-control" type="text" value="lora1,lora2" id="tags_input" />
                         </div>
 
 
@@ -55,7 +55,7 @@
                                 <label for="category_id" class="text-muted">Categories</label>
                                 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                                     @foreach($categories as $category)
-                                        <input type="checkbox" class="btn-check" id="btncheck_{{$category->id}}" autocomplete="off">
+                                        <input name="categories[]" type="checkbox" class="btn-check" id="btncheck_{{$category->id}}" autocomplete="off">
                                         <label class="btn btn-sm btn-outline-secondary" for="btncheck_{{$category->id}}">{!! $category->svg_icon !!} {{ $category->description }}</label>
                                     @endforeach
                                 </div>
@@ -117,8 +117,8 @@
         <div class="d-flex flex-row gap-2">
             <span class="align-self-center">Activate this if the prompt is not safe for work.</span>
             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-                <label class="btn btn-outline-warning" for="btncheck1">NSFW</label>
+                <input name="is_nsfw" type="checkbox" class="btn-check" id="btn_nsfw" autocomplete="off">
+                <label class="btn btn-outline-warning" for="btn_nsfw">NSFW</label>
             </div>
         </div>
     </div>
