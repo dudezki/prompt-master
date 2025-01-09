@@ -1,5 +1,32 @@
 const GLOBAL = function() {
     let fileBlobs = [];
+
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    let showErrorToast = (message) => {
+        toastr["error"](message)
+    }
+    let showSuccessToast = (message) => {
+        toastr["success"](message)
+    }
+
+
     return {
         initCreatePrompt: function() {
             // on change base_model_local_file get file name and add to base_model_file_name
@@ -113,14 +140,14 @@ const GLOBAL = function() {
                 }
             });
         },
+
         initCreateTagsinput: function() {
             $('#tags_input', document).tagsinput();
         },
+
+
+
         initCreatePromptForm: function() {
-            /*
-            @TODO: Lucky: find a way to get the form data values and send it to the server.
-            @TODO: Lucky: create server side script.
-             */
             $(document).on('submit', '#offcanvasAddNew', function(e) {
                e.preventDefault();
                 let form = $(this);
@@ -142,11 +169,31 @@ const GLOBAL = function() {
                     processData: false,
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    beforeSend: function() {
+                        // bootstrap spinner visible in submit button
+                        form.find('[type="submit"] .spinner-border').removeClass('d-none');
+                        form.find('.button-text').text('Sending...');
                     }
                 }).done(function(d) {
-                    console.log(d);
+
+                    if(d.status === 'error') {
+                        showErrorToast(d.message);
+                    }else {
+                        if (typeof MAIN !== 'undefined') {
+                            MAIN.drawPromptCardHtml(d.prompt, 'prepend');
+                        }
+                        showSuccessToast(d.message);
+                    }
+
+                    // remove spinner in submit button
+                    form.find('[type="submit"] .spinner-border').addClass('d-none');
+                    form.find('.button-text').text('Save');
                 }).fail(function(e) {
                     console.log(e);
+                    // remove spinner in submit button
+                    form.find('[type="submit"] .spinner-border').addClass('d-none');
+                    form.find('.button-text').text('Save');
                 });
             });
         },

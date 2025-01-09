@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Prompt;
 use App\Models\PromptCategory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -23,17 +28,26 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param Request $request
+     * @return Application|Factory|View|JsonResponse
      */
-    public function index()
+    public function index(Request $request) : Application|Factory|View|JsonResponse
     {
-        if (Auth::check()) {
+        if( $request->ajax() ) {
+            $prompt = Prompt::with('tagging.category', 'cards')
+                ->where('status', 'active')
+                ->orderBy('id', 'desc')
+                ->get();
 
-            $this->data['items'] = Prompt::with('tagging.category', 'cards')->get();
-            $this->data['categories'] = PromptCategory::all();
-            
-            return view('home', $this->data);
+            $this->data['count'] = $prompt->count();
+            $this->data['items'] = $prompt->toArray();
+
+            return response()->json($this->data);
         }
-        return view('auth.login');
+
+        $this->data['categories'] = PromptCategory::all();
+
+        return view('home', $this->data);
     }
+
 }

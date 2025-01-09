@@ -17,6 +17,9 @@ class Prompt extends Model
         'status',
     ];
 
+    protected $appends = ['author', 'author_avatar'];
+
+
     public function tagging()
     {
         return $this->hasMany(PromptCategoryTagging::class);

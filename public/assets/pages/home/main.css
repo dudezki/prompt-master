@@ -6,9 +6,13 @@
     background-size: cover;
     background-position: top center;
     transition: opacity 0.3s ease-in-out;
+    width: calc((100% / 6) - 12px); /* Adjusted to account for margins */
+    margin: 5px;
+    box-sizing: border-box;
+    padding: 0 0;
 }
 
-.gallery-square::before {
+.gallery-square .gallery-card::before {
     opacity: 0;
     content: '';
     position: absolute;
@@ -17,12 +21,12 @@
     width: 110%;
     height: 110%;
     background: inherit;
-    z-index: 1;
+    z-index: 2;
     image-rendering: pixelated;
     transition: opacity 0.3s ease-in-out;
 }
 
-.gallery-square.nsfw::before {
+.gallery-square.nsfw .gallery-card::before {
     filter: blur(30px) contrast(200%) saturate(50%) brightness(80%) drop-shadow(0 0 10px black);
     opacity: 1;
     transition: opacity 0.3s ease-in-out;

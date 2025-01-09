@@ -36,12 +36,15 @@
     <meta name="msapplication-TileImage" content="@asset('images/favicon/ms-icon-144x144.png')">
     <meta name="theme-color" content="#ffffff">
 
+
     @cssLink('plugins/bootstrap/5.3.3/css/bootstrap.min.css')
     @cssLink('plugins/bootstrap-icons/1.11.0/bootstrap-icons.min.css')
     @cssLink('plugins/select2/2.4.0.13/css/select2.min.css')
     @cssLink('plugins/select2/2.4.0.13/css/select2-bootstrap-5-theme.min.css')
-    <!-- Lightbox CSS -->
+
+    <!-- THIRD PARTY PLUGINS -->
     @cssLink('plugins/lightbox2/2.11.5/css/lightbox.min.css')
+    @cssLink('plugins/toastr.js/css/toastr.min.css')
 
     @cssLink('global/css/custom.css')
 
@@ -62,9 +65,12 @@
     @endauth
 </div>
 
+<!-- Scripts -->
+
 @scriptLink('plugins/jquery/3.6.0/jquery.min.js')
 @scriptLink('plugins/bootstrap/5.3.3/js/bootstrap.bundle.min.js')
 @scriptLink('plugins/lightbox2/2.11.5/js/lightbox.min.js')
+@scriptLink('plugins/toastr.js/js/toastr.min.js')
 @scriptLink('pages/global.js')
 @stack('js')
 @auth

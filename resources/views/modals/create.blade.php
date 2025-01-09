@@ -110,7 +110,10 @@
     </div>
     <hr class="m-0">
     <div class="offcanvas-footer p-4 d-flex flex-row justify-content-between">
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary d-flex flex-row gap-1 align-items-center">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            <span class="button-text">Save</span>
+        </button>
         <div class="d-flex flex-row gap-2">
             <span class="align-self-center">Activate this if the prompt is not safe for work.</span>
             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
@@ -120,3 +123,17 @@
         </div>
     </div>
 </form>
+<!-- End Offcanvas Add New -->
+
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer">
+    <div id="liveToast" class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Notification</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <!-- Toast message will be inserted here -->
+        </div>
+    </div>
+</div>

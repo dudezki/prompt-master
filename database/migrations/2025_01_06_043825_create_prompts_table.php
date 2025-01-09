@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('positive_prompt')->nullable();
             $table->text('negative_prompt')->nullable();
             $table->enum('visibility', ['public', 'private'])->default('public');
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive', 'deleted'])->default('active');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');
             $table->boolean('is_nsfw')->default(false);

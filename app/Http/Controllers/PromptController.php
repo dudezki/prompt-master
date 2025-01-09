@@ -29,6 +29,16 @@ class PromptController extends Controller
      */
     public function store(Request $request)
     {
+        $file_blobs = $request->input('file_blob');
+
+        if($file_blobs == null) {
+            return response()->json([
+                'status' => 'error',
+                'title' => 'Prompt not created',
+                'icon' => 'error',
+                'message' => 'Prompt not created. Please upload prompt cards.'
+            ], 200);
+        }
         // create prompt
         $prompt = new Prompt;
         $prompt->title = $request->input('title');
@@ -39,7 +49,6 @@ class PromptController extends Controller
 
         if ($prompt->save()) {
             // convert the base64 string to blob data to insert in database.
-            $file_blobs = $request->input('file_blob');
 
             foreach ($file_blobs as $base64String) {
                 // Ensure the base64 string is properly formatted
@@ -52,13 +61,16 @@ class PromptController extends Controller
             }
         }
 
+        $new_prompt = Prompt::with('tagging.category', 'cards')->find($prompt->id);
+
 
         return response()->json([
             'status' => 'success',
             'title' => 'Prompt created',
             'icon' => 'success',
             'message' => 'Prompt created successfully',
-            'data' => $request->input()
+            'data' => $request->input(),
+            'prompt' => $new_prompt
         ], 201);
     }
 
@@ -91,6 +103,14 @@ class PromptController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $prompt = Prompt::find($id);
+        $prompt->status = 'deleted';
+        $prompt->save();
+        return response()->json([
+            'status' => 'success',
+            'title' => 'Prompt deleted',
+            'icon' => 'success',
+            'message' => 'Prompt deleted successfully'
+        ], 200);
     }
 }
