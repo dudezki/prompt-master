@@ -81,8 +81,8 @@
                                 <div class="dz-size"><span data-dz-size></span></div>
                                 <div class="dz-filename"><span data-dz-name></span></div>
 
-                                <a class="btn btn-primary btn-sm show" href="javascript:void(0);" data-lightbox="dropzone" >
-                                    <i class="bi bi-search"></i>
+                                <a class="btn btn-secondary btn-sm show mt-2" href="javascript:void(0);" data-lightbox="dropzone" >
+                                    <i class="bi bi-eye-fill"></i>
                                 </a>
                             </div>
 
