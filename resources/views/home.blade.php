@@ -32,7 +32,7 @@
     <div class="row">
         @foreach($items as $item)
             <div class="col-md-2 mb-4">
-                <div style="min-height: 40vh; max-height: 50vh; width: 100%; background-image: url('{{ asset('assets/uploads/cards/1/cover.jpeg') }}'); background-size: cover;" class="gallery-square image-overlay position-relative @if($item->is_nsfw) nsfw @endif">
+                <div style="min-height: 40vh; max-height: 50vh; width: 100%; background-image: url('@isset($item->cards->first()->file)data:image/png;base64,{{ $item->cards[0]->file }} @else {{ asset('assets/uploads/cards/1/cover.jpeg') }} @endif'); background-size: cover;" class="gallery-square image-overlay position-relative @if($item->is_nsfw) nsfw @endif">
                     <div class="overlay d-flex flex-column justify-content-center align-items-center">
                         <p class="gallery-text">{{ Str::limit($item->description, 100) }}</p>
                         <div class="d-flex flex-row gap-3">

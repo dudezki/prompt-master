@@ -8,7 +8,8 @@ class Prompt extends Model
 {
     protected $fillable = [
         'title',
-        'description',
+        'positive_prompt',
+        'negative_prompt',
         'visibility',
         'status',
         'created_by',
@@ -49,5 +50,10 @@ class Prompt extends Model
 
     public function getAuthorAvatarAttribute() {
         return $this->user->avatar;
+    }
+
+    public function cards()
+    {
+        return $this->hasMany(PromptCard::class);
     }
 }

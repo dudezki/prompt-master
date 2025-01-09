@@ -1,4 +1,5 @@
 const GLOBAL = function() {
+    let fileBlobs = [];
     return {
         initCreatePrompt: function() {
             // on change base_model_local_file get file name and add to base_model_file_name
@@ -24,8 +25,9 @@ const GLOBAL = function() {
                 previewTemplate: document.querySelector('#file-previews-template').innerHTML,
                 init: function() {
                     this.on("addedfile", function(file) {
+
+
                         file.previewElement.dropzoneFile = file;
-                        console.log("File added:", file);
 
                         let reader = new FileReader();
                         reader.onload = function(event) {
@@ -49,10 +51,19 @@ const GLOBAL = function() {
                         $('#file-upload-controls', document).removeClass('d-none');
 
                         $('[data-bs-toggle="tooltip"]', document).tooltip();
+
+                        // Select the first image as image-preview-selected and check the radio button
+                        if ($('.dz-preview.image-preview-selected', document).length === 0) {
+                            $(file.previewElement).addClass('image-preview-selected');
+                            $(file.previewElement).find('input[type="radio"]').prop('checked', true);
+                        }
                     });
 
                     this.on("removedfile", function(file) {
-                        $('#file-upload-controls', document).addClass('d-none');
+                        // check if there is still files in the dropzone
+                        if (this.files.length === 0) {
+                            $('#file-upload-controls', document).addClass('d-none');
+                        }
                     });
 
                     document.addEventListener("paste", (event) => {
@@ -79,6 +90,11 @@ const GLOBAL = function() {
                         e.preventDefault();
                         e.stopPropagation();
                         let file = $(this).closest('.dz-preview').get(0).dropzoneFile;
+                        let base64String = file.previewElement.querySelector('.file-blob').value;
+
+                        // Remove the base64 string from the array
+                        fileBlobs = fileBlobs.filter(blob => blob !== base64String);
+
                         $(this).closest('.dz-preview').fadeOut(300, function() {
                             myDropzone.removeFile(file);
                         });
@@ -92,6 +108,7 @@ const GLOBAL = function() {
 
                     removeFiles.addEventListener("click", function() {
                         myDropzone.removeAllFiles();
+                        fileBlobs = []; // Clear the array when all files are removed
                     });
                 }
             });
@@ -101,22 +118,36 @@ const GLOBAL = function() {
         },
         initCreatePromptForm: function() {
             /*
-            @TODO: Lucky: find a way to get the form data values and send it to the server
+            @TODO: Lucky: find a way to get the form data values and send it to the server.
+            @TODO: Lucky: create server side script.
              */
             $(document).on('submit', '#offcanvasAddNew', function(e) {
                e.preventDefault();
                 let form = $(this);
                 let formData = new FormData(form[0]);
+
+                // Append the file blobs to the formData
+                fileBlobs.forEach((blob, index) => {
+                    formData.append(`file_blob[${index}]`, blob);
+                });
+
+                let url = form.attr('action');
+                let method = form.attr('method');
+
                 $.ajax({
-                    url: form.attr('action'),
-                    type: 'POST',
+                    url: url,
+                    method: method,
                     data: formData,
                     contentType: false,
                     processData: false,
-                    success: function(response) {
-                        console.log(response);
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     }
-                })
+                }).done(function(d) {
+                    console.log(d);
+                }).fail(function(e) {
+                    console.log(e);
+                });
             });
         },
         init: function() {

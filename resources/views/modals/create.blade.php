@@ -1,6 +1,6 @@
 
 <!-- Offcanvas Add New -->
-<form class="offcanvas offcanvas-end" style="width: 35%;" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel" method="post" action="/prompt/add">
+<form class="offcanvas offcanvas-end" style="width: 35%;" tabindex="-1" id="offcanvasAddNew" aria-labelledby="offcanvasAddNewLabel" method="post" action="/prompt">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasAddNewLabel">Add New</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -15,32 +15,32 @@
                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tab_attachments" type="button" role="tab" aria-controls="tab_attachments" aria-selected="false">Attachment and Cover</button>
             </li>
         </ul>
-        <div class="tab-content py-3" id="myTabContent">
+        <div class="tab-content py-3" id="myTabContent" style="height: 70vh;">
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <div class="row">
                     <div class="col-md-12">
 
                         <div class="form-group mb-2">
                             <label for="title">Title</label>
-                            <input type="text" class="form-control" id="title" name="title" required>
+                            <input type="text" class="form-control" id="title" name="title">
                         </div>
                         <div class="form-group mb-2">
                             <label for="description">Positive Prompt</label>
-                            <textarea rows="4" class="form-control" id="description" name="description" required></textarea>
+                            <textarea rows="4" class="form-control" id="description" name="description" ></textarea>
                         </div>
                         <div class="form-group mb-3">
                             <label for="description">Negative Prompt</label>
-                            <textarea rows="2" class="form-control" id="description" name="description" required></textarea>
+                            <textarea rows="2" class="form-control" id="description" name="description"></textarea>
                         </div>
 
                         <div class="p-2 border rounded mb-3">
                             <div class="form-group mb-2">
                                 <label for="tag_id" class="text-muted">Base Model</label>
-                                <input type="text" class="form-control" id="base_model_file_name" name="base_model_file_name" required>
+                                <input type="text" class="form-control" id="base_model_file_name" name="base_model_file_name">
                             </div>
                             <div class="form-group ">
                                 <label for="tag_id" class="text-muted">Local File</label>
-                                <input id="base_model_local_file" accept=".safetensors" type="file" class="form-control" name="base_model_local_file" required>
+                                <input id="base_model_local_file" accept=".safetensors" type="file" class="form-control" name="base_model_local_file" >
                             </div>
                         </div>
 
@@ -65,12 +65,12 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="tab_attachments">
+            <div class="tab-pane fade h-100" id="tab_attachments">
 
 
-                <div class="form-group mb-2 dz-container">
+                <div class="form-group mb-2 dz-container" style="min-height: 100%;">
                     {{-- dropzone here --}}
-                    <div id="file-dropzone" class="dropzone"></div>
+                    <div id="file-dropzone" class="dropzone h-100"></div>
 
                     <div class="dropzone-preview-template d-none" id="file-previews-template">
                         <div class="dz-preview dz-file-preview" data-bs-toggle="tooltip" title="Click to make this as a default cover">
@@ -81,7 +81,7 @@
                                 <div class="dz-size"><span data-dz-size></span></div>
                                 <div class="dz-filename"><span data-dz-name></span></div>
 
-                                <a class="btn btn-secondary btn-sm show mt-2" href="javascript:void(0);" data-lightbox="dropzone" >
+                                <a class="btn btn-secondary btn-sm show mt-2" href="javascript:void(0);" >
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
                             </div>
