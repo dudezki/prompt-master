@@ -100,6 +100,9 @@ const GLOBAL = function() {
             $('#tags_input', document).tagsinput();
         },
         initCreatePromptForm: function() {
+            /*
+            @TODO: Lucky: find a way to get the form data values and send it to the server
+             */
             $(document).on('submit', '#offcanvasAddNew', function(e) {
                e.preventDefault();
                 let form = $(this);
