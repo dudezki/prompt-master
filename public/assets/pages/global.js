@@ -12,7 +12,6 @@ const GLOBAL = function() {
             this.initCreatePromptForm();
         },
         initCreateDropzone: function() {
-            let uploadFiles = document.getElementById('upload-files');
             let removeFiles = document.getElementById('remove-files');
 
             Dropzone.autoDiscover = false;
@@ -21,7 +20,7 @@ const GLOBAL = function() {
                 url: "/internal/pm/upload.php",
                 autoProcessQueue: false,
                 parallelUploads: 100,
-                dictDefaultMessage: "Drag files here or click to upload an attachment(s).",
+                dictDefaultMessage: "Drag files here or click to upload generation sample(s).",
                 previewTemplate: document.querySelector('#file-previews-template').innerHTML,
                 init: function() {
                     this.on("addedfile", function(file) {
@@ -38,29 +37,22 @@ const GLOBAL = function() {
                             hiddenInput.value = base64String;
 
                             file.previewElement.appendChild(hiddenInput);
+
+                            // Set the href attribute of the [a] tag to the base64 image URL
+                            let aTag = file.previewElement.querySelector('a');
+                            aTag.href = event.target.result;
+                            aTag.setAttribute('data-lightbox', 'dropzone'); // Ensure all images are in the same lightbox group
                         };
 
                         reader.readAsDataURL(file);
 
-                        document.getElementById("file-upload-controls").classList.remove("hidden");
+                        $('#file-upload-controls', document).removeClass('d-none');
 
                         $('[data-bs-toggle="tooltip"]', document).tooltip();
                     });
 
-                    this.on("sending", function(file, xhr, formData) {
-                        //formData.append("dtr_log_id", '');
-                    });
-
                     this.on("removedfile", function(file) {
-                        document.getElementById("file-upload-controls").classList.add("hidden");
-                    });
-
-                    this.on("success", function(file, response) {
-                        console.log("File uploaded successfully:", response);
-                    });
-
-                    this.on("error", function(file, errorMessage) {
-                        console.log("Error uploading file:", errorMessage);
+                        $('#file-upload-controls', document).addClass('d-none');
                     });
 
                     document.addEventListener("paste", (event) => {
@@ -74,10 +66,13 @@ const GLOBAL = function() {
                         }
                     });
 
-                    // $(document).on('click', '.dz-preview', function() {
-                    //     var imgSrc = $(this).find('img').attr('src');
-                    //     lightbox.open(imgSrc);
-                    // });
+                    $(document).on('click', '.dz-preview .show', function() {
+                        lightbox.start($(this).find('a')[0]);
+                        lightbox.option({
+                            'resizeDuration': 200,
+                            'wrapAround': true
+                        });
+                    });
 
                     // Handle delete button click
                     $(document).on('click', '.dz-remove', function(e) {
@@ -94,15 +89,11 @@ const GLOBAL = function() {
                         $(this).addClass('image-preview-selected');
                         $(this).find('input[type="radio"]').prop('checked', true);
                     });
+
+                    removeFiles.addEventListener("click", function() {
+                        myDropzone.removeAllFiles();
+                    });
                 }
-            });
-
-            removeFiles.addEventListener("click", function() {
-                myDropzone.removeAllFiles();
-            });
-
-            uploadFiles.addEventListener("click", function() {
-                myDropzone.processQueue();
             });
         },
         initCreateTagsinput: function() {

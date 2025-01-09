@@ -41,7 +41,7 @@
     @cssLink('plugins/select2/2.4.0.13/css/select2.min.css')
     @cssLink('plugins/select2/2.4.0.13/css/select2-bootstrap-5-theme.min.css')
     <!-- Lightbox CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    @cssLink('plugins/lightbox2/2.11.5/css/lightbox.min.css')
 
     @cssLink('global/css/custom.css')
 
@@ -64,6 +64,7 @@
 
 @scriptLink('plugins/jquery/3.6.0/jquery.min.js')
 @scriptLink('plugins/bootstrap/5.3.3/js/bootstrap.bundle.min.js')
+@scriptLink('plugins/lightbox2/2.11.5/js/lightbox.min.js')
 @scriptLink('pages/global.js')
 @stack('js')
 @auth

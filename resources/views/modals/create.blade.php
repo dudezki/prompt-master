@@ -19,6 +19,7 @@
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <div class="row">
                     <div class="col-md-12">
+
                         <div class="form-group mb-2">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" id="title" name="title" required>
@@ -72,13 +73,17 @@
                     <div id="file-dropzone" class="dropzone"></div>
 
                     <div class="dropzone-preview-template d-none" id="file-previews-template">
-                        <a class="dz-preview dz-file-preview" href="javascript:void(0);" data-bs-toggle="tooltip" title="Click to make this as a default cover">
+                        <div class="dz-preview dz-file-preview" data-bs-toggle="tooltip" title="Click to make this as a default cover">
                             <div class="dz-image">
                                 <img data-dz-thumbnail />
                             </div>
                             <div class="dz-details">
                                 <div class="dz-size"><span data-dz-size></span></div>
                                 <div class="dz-filename"><span data-dz-name></span></div>
+
+                                <a class="btn btn-primary btn-sm show" href="javascript:void(0);" data-lightbox="dropzone" >
+                                    <i class="bi bi-search"></i>
+                                </a>
                             </div>
 
                             <!-- Add radio input for cover image -->
@@ -90,13 +95,12 @@
                             <button type="button" class="dz-remove">
                                 <i class="bi bi-x"></i>
                             </button>
-                        </a>
+                        </div>
                     </div>
 
                     <div class="dropzone-previews"></div>
 
-                    <div id="file-upload-controls" class="dz-controls hidden" style="margin-top: 5px;">
-                        <button type="button" class="btn btn-sm btn-success" id="upload-files">Attach Files</button>
+                    <div id="file-upload-controls" class="dz-controls d-none" style="margin-top: 5px;">
                         <button type="button" class="btn btn-sm btn-danger" id="remove-files">Remove Files</button>
                     </div>
                 </div>
