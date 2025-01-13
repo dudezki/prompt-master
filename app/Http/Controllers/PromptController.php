@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AiModel;
 use App\Models\Prompt;
 use App\Models\PromptCard;
 use App\Models\PromptTool;
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\DB;
 class PromptController extends Controller
 {
     private array $data = [];
+
+    private int $model_id = 0;
+    private int $prompt_id = 0;
 
     /**
      * Display a listing of the resource.
@@ -51,6 +55,9 @@ class PromptController extends Controller
         DB::beginTransaction();
 
         try {
+
+            $this->createModel($request);
+
             $prompt = $this->createPrompt($request);
 
             $this->tagTools($prompt, $use_tools);
@@ -76,9 +83,20 @@ class PromptController extends Controller
                 'status' => 'error',
                 'title' => 'Prompt not created',
                 'icon' => 'error',
-                'message' => 'Prompt not created. An error occurred.'
+                'message' => 'Prompt not created. An error occurred: ' . $e->getMessage()
             ]);
         }
+    }
+
+
+    private function createModel(Request $request): void
+    {
+        $model = AiModel::firstOrCreate(
+            ['name' => $request->input('base_model_file_name')],
+            ['status' => 'active']
+        );
+
+        $this->model_id = $model->id;
     }
 
     private function createPrompt(Request $request): Prompt
@@ -88,6 +106,7 @@ class PromptController extends Controller
         $prompt->positive_prompt = $request->input('positive_prompt');
         $prompt->negative_prompt = $request->input('negative_prompt');
         $prompt->is_nsfw = $request->input('is_nsfw') == 'on' ? 1 : 0;
+        $prompt->model_id = $this->model_id;
         $prompt->created_by = auth()->user()->id;
         $prompt->updated_by = auth()->user()->id;
         $prompt->save();
@@ -194,4 +213,5 @@ class PromptController extends Controller
             'message' => 'Prompt deleted successfully'
         ], 200);
     }
+
 }

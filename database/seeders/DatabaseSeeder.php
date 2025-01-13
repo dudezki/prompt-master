@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
             PeopleSeeder::class,
             UserSeeder::class,
             PromptCategorySeeder::class,
-            PromptSeeder::class,
-            PromptCategoryTaggingSeeder::class,
+            //PromptSeeder::class,
+            //PromptCategoryTaggingSeeder::class,
             PromptToolSeeder::class,
-            PromptToolTaggingSeeder::class,
+            //PromptToolTaggingSeeder::class,
         ]);
     }
 }

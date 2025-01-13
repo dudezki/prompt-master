@@ -40,7 +40,7 @@
                             </div>
                             <div class="form-group ">
                                 <label for="tag_id" class="text-muted">Local File</label>
-                                <input id="base_model_local_file" accept=".safetensors" type="file" class="form-control" name="base_model_local_file" >
+                                <input id="base_model_local_file" accept=".safetensors" type="file" class="form-control" >
                             </div>
                         </div>
 

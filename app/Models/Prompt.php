@@ -59,4 +59,9 @@ class Prompt extends Model
     {
         return $this->hasMany(PromptCard::class);
     }
+
+    public function ai_model()
+    {
+        return $this->belongsTo(AiModel::class, 'model_id');
+    }
 }

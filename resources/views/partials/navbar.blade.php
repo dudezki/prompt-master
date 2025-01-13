@@ -19,8 +19,10 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <div class="h-100 btn-group me-2" role="group" aria-label="Basic checkbox toggle button group">
-                        <input name="is_nsfw" type="checkbox" class="btn-check" id="btn_nsfw" autocomplete="off">
-                        <label class="btn btn-outline-warning" for="btn_nsfw">NSFW</label>
+                        <input name="is_nsfw" type="checkbox" class="btn-check" id="btn_nsfw_all" autocomplete="off">
+                        <label class="btn btn-outline-warning" for="btn_nsfw_all">
+                            <i class="bi bi-eye-fill"></i>
+                        </label>
                     </div>
                 </li>
                 <li class="nav-item">
