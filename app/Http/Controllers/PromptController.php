@@ -141,6 +141,10 @@ class PromptController extends Controller
         $cardsPerColumn = ceil($cards->count() / $columns);
 
 
+        $created_details = '<div class="p-3">';
+        $created_details .= '<span class="text-muted">' . \Carbon\Carbon::parse($prompt->created_at)->diffForHumans() . '</span> by ' . $prompt->user->name;
+        $created_details .= '</div>';
+
 
         $data = [
             'prompt' => $prompt,
@@ -148,6 +152,7 @@ class PromptController extends Controller
             'cardsPerColumn' => $cardsPerColumn,
             'cards' => $cards,
             'tools' => $prompt->tools,
+            'created_details' => $created_details
         ];
 
         $view = view('pages.prompt.show', $data)->render();

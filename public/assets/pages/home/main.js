@@ -55,6 +55,7 @@ const MAIN = function() {
             let offcanvas = $(this);
             let offcanvasBody = offcanvas.find('.offcanvas-body');
             let offcanvasTitle = offcanvas.find('.offcanvas-title');
+            let offcanvasFooter = offcanvas.find('.offcanvas-footer');
 
             $.ajax({
                 url: '/prompt/' + id,
@@ -62,6 +63,8 @@ const MAIN = function() {
                 success: function(d) {
                     offcanvasTitle.html(d.data.prompt.title);
                     offcanvasBody.html(d.view);
+                    offcanvasFooter.html(d.data.created_details);
+
                 }
             });
 
@@ -78,9 +81,11 @@ const MAIN = function() {
             let offcanvas = $(this);
             let offcanvasBody = offcanvas.find('.offcanvas-body');
             let offcanvasTitle = offcanvas.find('.offcanvas-title');
+            let offcanvasFooter = offcanvas.find('.offcanvas-footer');
 
             offcanvasTitle.html('');
             offcanvasBody.html('');
+            offcanvasFooter.html('');
         });
 
         $(document).on('click', '.prompt-copy', function() {

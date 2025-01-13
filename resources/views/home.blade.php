@@ -44,6 +44,9 @@
         <div class="offcanvas-body">
 
         </div>
+        <div class="offcanvas-footer">
+
+        </div>
     </div>
 
 

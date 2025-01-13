@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-8" >
         <h4>Sample Generation</h4>
-        <div class="row" style="overflow-y: auto; max-height: 85vh;">
+        <div class="row" style="overflow-y: auto; max-height: 80vh;">
             @for ($i = 0; $i < $columns; $i++)
                 <div class="col-md-{{ 12 / $columns }}">
                     @for ($j = 0; $j < $cardsPerColumn; $j++)
@@ -49,5 +49,6 @@
         @foreach($prompt->tools as $tool)
             <span class="badge bg-secondary">{{ $tool->tool->name }}</span>
         @endforeach
+
     </div>
 </div>
