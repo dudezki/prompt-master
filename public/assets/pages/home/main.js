@@ -65,7 +65,6 @@ const MAIN = function() {
                 }
             });
 
-
             offcanvas.on('mouseenter', '.form-control', function() {
                 $(this).find('.prompt-copy').removeClass('d-none');
             });
@@ -75,9 +74,23 @@ const MAIN = function() {
             });
         });
 
+        $(document).on('hidden.bs.offcanvas', '#offcanvasView', function(e) {
+            let offcanvas = $(this);
+            let offcanvasBody = offcanvas.find('.offcanvas-body');
+            let offcanvasTitle = offcanvas.find('.offcanvas-title');
 
+            offcanvasTitle.html('');
+            offcanvasBody.html('');
+        });
 
-
+        $(document).on('click', '.prompt-copy', function() {
+            let copyText = $(this).closest('.form-control').find('.prompt-content').text();
+            navigator.clipboard.writeText(copyText).then(function() {
+                toastr.success('Copied to clipboard');
+            }).catch(function(error) {
+                toastr.error('Failed to copy text');
+            });
+        })
 
         handlePromptContents();
     }

@@ -129,9 +129,11 @@ class PromptController extends Controller
      */
     public function show(string $id)
     {
-        $prompt = Prompt::with(['tagging.category', 'cards' => function($query) {
-            $query->select('id', 'file_name', 'title', 'prompt_id'); // Include 'prompt_id'
-        }])->find($id);
+        $prompt = Prompt::with(['tagging.category', 'tools.tool',
+            'cards' => function($query) {
+                $query->select('id', 'file_name', 'title', 'prompt_id'); // Include 'prompt_id'
+            }
+        ])->find($id);
 
         $cards = $prompt->cards;
         $maxColumns = 3; // Maximum number of columns
@@ -144,7 +146,8 @@ class PromptController extends Controller
             'prompt' => $prompt,
             'columns' => $columns,
             'cardsPerColumn' => $cardsPerColumn,
-            'cards' => $cards
+            'cards' => $cards,
+            'tools' => $prompt->tools,
         ];
 
         $view = view('pages.prompt.show', $data)->render();

@@ -15,8 +15,8 @@ class PromptToolTagging extends Model
         return $this->belongsTo(Prompt::class);
     }
 
-    public function promptTool()
+    public function tool()
     {
-        return $this->belongsTo(PromptTool::class);
+        return $this->belongsTo(PromptTool::class, 'prompt_tool_id');
     }
 }

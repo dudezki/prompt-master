@@ -34,9 +34,9 @@ class Prompt extends Model
 
     // Other model properties and methods
 
-    public function toolTagging()
+    public function tools()
     {
-        return $this->hasMany(PromptToolTagging::class, 'prompt_tool_taggings', 'prompt_id', 'prompt_tool_id');
+        return $this->hasMany(PromptToolTagging::class, 'prompt_id');
     }
 
     public function user(){

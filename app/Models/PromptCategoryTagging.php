@@ -16,6 +16,8 @@ class PromptCategoryTagging extends Model
         return $this->belongsTo(Prompt::class);
     }
 
+
+
     public function category()
     {
         return $this->belongsTo(PromptCategory::class);

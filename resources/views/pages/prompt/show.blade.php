@@ -43,5 +43,11 @@
                 </span>
             </div>
         </div>
+
+        <hr>
+
+        @foreach($prompt->tools as $tool)
+            <span class="badge bg-secondary">{{ $tool->tool->name }}</span>
+        @endforeach
     </div>
 </div>
