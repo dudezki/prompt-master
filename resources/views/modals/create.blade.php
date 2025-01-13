@@ -25,12 +25,12 @@
                             <input type="text" class="form-control" id="title" name="title">
                         </div>
                         <div class="form-group mb-2">
-                            <label for="description">Positive Prompt</label>
-                            <textarea rows="4" class="form-control" id="description" name="description" ></textarea>
+                            <label for="positive_prompt">Positive Prompt</label>
+                            <textarea rows="4" class="form-control" id="positive_prompt" name="positive_prompt" ></textarea>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="description">Negative Prompt</label>
-                            <textarea rows="2" class="form-control" id="description" name="description"></textarea>
+                            <label for="negative_prompt">Negative Prompt</label>
+                            <textarea rows="2" class="form-control" id="negative_prompt" name="negative_prompt"></textarea>
                         </div>
 
                         <div class="p-2 border rounded mb-3">

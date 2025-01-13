@@ -7,10 +7,13 @@ use App\Models\PromptCard;
 use App\Models\PromptTool;
 use App\Models\PromptToolTagging;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class PromptController extends Controller
 {
+    private array $data = [];
+
     /**
      * Display a listing of the resource.
      */
@@ -126,7 +129,30 @@ class PromptController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $prompt = Prompt::with(['tagging.category', 'cards' => function($query) {
+            $query->select('id', 'file_name', 'title', 'prompt_id'); // Include 'prompt_id'
+        }])->find($id);
+
+        $cards = $prompt->cards;
+        $maxColumns = 3; // Maximum number of columns
+        $columns = min($maxColumns, max(1, ceil($cards->count() / 2))); // Adjust columns based on the number of cards
+        $cardsPerColumn = ceil($cards->count() / $columns);
+
+
+
+        $data = [
+            'prompt' => $prompt,
+            'columns' => $columns,
+            'cardsPerColumn' => $cardsPerColumn,
+            'cards' => $cards
+        ];
+
+        $view = view('pages.prompt.show', $data)->render();
+
+        return response()->json([
+            'view' => $view,
+            'data' => $data
+        ]);
     }
 
     /**

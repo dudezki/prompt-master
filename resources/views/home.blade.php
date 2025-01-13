@@ -36,9 +36,9 @@
 
 
     <!-- Offcanvas View -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasView" aria-labelledby="offcanvasViewLabel">
+    <div class="offcanvas offcanvas-end" style="width: 65%;" tabindex="-1" id="offcanvasView" aria-labelledby="offcanvasViewLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasViewLabel">Prompt Details</h5>
+            <h3 class="offcanvas-title" id="offcanvasViewLabel">Prompt Details</h3>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">

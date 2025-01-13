@@ -50,6 +50,34 @@ const MAIN = function() {
         });
 
 
+        $(document).on('shown.bs.offcanvas', '#offcanvasView', function(e) {
+            let id = $(e.relatedTarget).data('id');
+            let offcanvas = $(this);
+            let offcanvasBody = offcanvas.find('.offcanvas-body');
+            let offcanvasTitle = offcanvas.find('.offcanvas-title');
+
+            $.ajax({
+                url: '/prompt/' + id,
+                type: 'GET',
+                success: function(d) {
+                    offcanvasTitle.html(d.data.prompt.title);
+                    offcanvasBody.html(d.view);
+                }
+            });
+
+
+            offcanvas.on('mouseenter', '.form-control', function() {
+                $(this).find('.prompt-copy').removeClass('d-none');
+            });
+
+            offcanvas.on('mouseleave', '.form-control', function() {
+                $(this).find('.prompt-copy').addClass('d-none');
+            });
+        });
+
+
+
+
 
         handlePromptContents();
     }
@@ -112,11 +140,11 @@ const MAIN = function() {
                             <div class="overlay d-flex flex-column justify-content-center align-items-center">
                                 <p class="gallery-text">${prompt.title.substring(0, 100)}</p>
                                 <div class="d-flex flex-row gap-3">
-                                    <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasView${prompt.id}">
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-id="${prompt.id}" data-bs-target="#offcanvasView">
                                         <i class="bi bi-search"></i>
                                     </button>
                                     ${prompt.is_nsfw ? `
-                                    <button class="btn btn-warning btn-sm" id="btn_show_content">
+                                    <button class="btn btn-warning btn-sm" id="btn_show_content" data-id="${prompt.id}">
                                         <i class="bi bi-eye"></i>
                                     </button>` : ''}
                                     <button class="btn btn-danger btn-sm btn-delete" data-id="${prompt.id}">
@@ -158,7 +186,7 @@ const MAIN = function() {
                 card.find('.gallery-card').css('background-image', `url(${imageUrl})`);
             });
         } else {
-            card.find('.gallery-card').css('background-image', 'url(/assets/images/default-card.jpeg)')
+            card.find('.gallery-card').css('background-image', 'url(\'/assets/images/default-card.png\')')
                 .removeClass('gallery-loading')
         }
 
