@@ -18,6 +18,12 @@
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
+                    <div class="h-100 btn-group me-2" role="group" aria-label="Basic checkbox toggle button group">
+                        <input name="is_nsfw" type="checkbox" class="btn-check" id="btn_nsfw" autocomplete="off">
+                        <label class="btn btn-outline-warning" for="btn_nsfw">NSFW</label>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddNew" class="nav-link me-3 px-4 bg-primary rounded-1" href="{{ route('home') }}">Create</a>
                 </li>
                 <li class="nav-item dropdown">
