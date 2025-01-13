@@ -34,7 +34,9 @@ class HomeController extends Controller
     public function index(Request $request) : Application|Factory|View|JsonResponse
     {
         if( $request->ajax() ) {
-            $prompt = Prompt::with('tagging.category', 'cards')
+            $prompt = Prompt::with(['tagging.category', 'cards' => function($query) {
+                    $query->select('id', 'file_name', 'title', 'prompt_id'); // Include 'prompt_id'
+                }])
                 ->where('status', 'active')
                 ->orderBy('id', 'desc')
                 ->get();

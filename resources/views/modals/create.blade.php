@@ -55,7 +55,7 @@
                                 <label for="category_id" class="text-muted">Categories</label>
                                 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                                     @foreach($categories as $category)
-                                        <input name="categories[]" type="checkbox" class="btn-check" id="btncheck_{{$category->id}}" autocomplete="off">
+                                        <input name="categories[]" value="{{$category->id}}" type="checkbox" class="btn-check" id="btncheck_{{$category->id}}" autocomplete="off">
                                         <label class="btn btn-sm btn-outline-secondary" for="btncheck_{{$category->id}}">{!! $category->svg_icon !!} {{ $category->description }}</label>
                                     @endforeach
                                 </div>

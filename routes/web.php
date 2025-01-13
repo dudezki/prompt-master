@@ -18,6 +18,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('prompt', \App\Http\Controllers\PromptController::class);
+Route::resource('card', \App\Http\Controllers\PromptCardController::class);
 
 Route::prefix('api')->group(function() {
     Route::resource('tools', \App\Http\Controllers\PromptToolsController::class);

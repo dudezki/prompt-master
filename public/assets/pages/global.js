@@ -181,7 +181,7 @@ const GLOBAL = function() {
                         showErrorToast(d.message);
                     }else {
                         if (typeof MAIN !== 'undefined') {
-                            MAIN.drawPromptCardHtml(d.prompt, 'prepend');
+                            MAIN.drawPromptCardHtml(d.data, 'prepend');
                         }
                         showSuccessToast(d.message);
                     }

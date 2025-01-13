@@ -35,8 +35,42 @@ const MAIN = function() {
             });
         });
 
+        $(document).on('click', '.gallery-bullet', function(e) {
+            e.preventDefault();
+            // Update the active bullet
+            $('.gallery-bullet').removeClass('active');
+            $(this).addClass('active');
+
+            let gallerySquare = $(this).closest('.gallery-square');
+            let galleryCard = gallerySquare.find('.gallery-card');
+
+            renderCardBackground(galleryCard, $(this).data('id')).then(function(imageUrl) {
+                galleryCard.css('background-image', `url(${imageUrl})`);
+            });
+        });
+
         handlePromptContents();
     }
+
+    let renderCardBackground = (galleryCard, id) => {
+        return $.ajax({
+            url: '/card/' + id,
+            type: 'GET',
+            xhrFields: {
+                responseType: 'blob'
+            },
+            beforeSend: function() {
+                galleryCard.addClass('gallery-loading');
+            }
+        }).then(function(data) {
+            galleryCard.removeClass('gallery-loading');
+            return URL.createObjectURL(data);
+        }).catch(function(error) {
+            galleryCard.removeClass('gallery-loading');
+            return '/assets/images/default-card.png';
+        });
+    }
+
     let rearrangeGallerySquares = () => {
         $('#prompts_container .gallery-square', document).each(function(index) {
             $(this).css('order', index);
@@ -68,45 +102,63 @@ const MAIN = function() {
     }
 
     let drawPromptCardHtml = (prompt, position = 'append') => {
+        let randomIndex = prompt.cards.length > 0 ? Math.floor(Math.random() * prompt.cards.length) : 0;
+        let randomCard = prompt.cards.length > 0 ? prompt.cards[randomIndex] : null;
+
         let card = $(`<div class="gallery-square image-overlay ${prompt.is_nsfw ? `nsfw` : ``}" style="display: none;">
-            <div style="min-height: 40vh; max-height: 50vh; width: 100%; background-image: url('${prompt.cards.length > 0 ? `data:image/png;base64,${prompt.cards[0].file}` : `/assets/uploads/cards/1/cover.jpeg`}'); background-size: cover;" class="gallery-card position-relative ${prompt.is_nsfw ? 'nsfw' : ''}">
-                <div class="overlay d-flex flex-column justify-content-center align-items-center">
-                    <p class="gallery-text">${prompt.title.substring(0, 100)}</p>
-                    <div class="d-flex flex-row gap-3">
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasView${prompt.id}">
-                            <i class="bi bi-search"></i>
-                        </button>
-                        ${prompt.is_nsfw ? `
-                        <button class="btn btn-warning btn-sm" id="btn_show_content">
-                            <i class="bi bi-eye"></i>
-                        </button>` : ''}
-                        <button class="btn btn-danger btn-sm btn-delete" data-id="${prompt.id}">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                </div>
+                        <div style="min-height: 40vh; max-height: 50vh; width: 100%; background-size: cover;" class="gallery-card position-relative gallery-loading ${prompt.is_nsfw ? 'nsfw' : ''}">
+                            <div class="overlay d-flex flex-column justify-content-center align-items-center">
+                                <p class="gallery-text">${prompt.title.substring(0, 100)}</p>
+                                <div class="d-flex flex-row gap-3">
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasView${prompt.id}">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                    ${prompt.is_nsfw ? `
+                                    <button class="btn btn-warning btn-sm" id="btn_show_content">
+                                        <i class="bi bi-eye"></i>
+                                    </button>` : ''}
+                                    <button class="btn btn-danger btn-sm btn-delete" data-id="${prompt.id}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center gallery-bullets">
+                                    ${prompt.cards.length > 1 ? prompt.cards.map((card, index) => `<a href="javascript:voide(0);" data-id="${card.id}" class="gallery-bullet ${index === randomIndex ? 'active' : ''}">.</a>`).join('') : ''}
+                                </div>
+                            </div>
 
-                <div class="gallery-title d-flex flex-row gap-2">
-                    <picture class="rounded float-start rounded-circle align-self-center">
-                        ${prompt.author_avatar ? `
-                        <img src="data:image/png;base64,${prompt.author_avatar}" alt="User Avatar" class="rounded-circle shadow-sm" width="40" height="40">` : `
-                        <img src="/assets/images/default-avatar.png" alt="Default Avatar" class="rounded-circle shadow-sm" width="40" height="40">`}
-                    </picture>
-                    <div class="d-flex flex-column gap-0 flex-grow-1 align-self-center">
-                        <div class="d-flex flex-row justify-content-between gap-2">
-                            <p class="mb-0 ${prompt.is_nsfw ? 'text-danger' : 'text-info'}" style="font-size: 13px;">${prompt.title}</p>
-                            <span class="ms-auto nsfw_label badge bg-danger small align-self-center">NSFW</span>
+                            <span class="loader"></span>
                         </div>
-                        <span class="text-muted" style="font-size: 12px;">${prompt.author}</span>
-                    </div>
-                </div>
 
-                ${prompt.tagging.map(tagging => `
-                <a href="javascript:void(0);" class="gallery-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="${tagging.category.description}">
-                    ${tagging.category.svg_icon}
-                </a>`).join('')}
-            </div>
-        </div>`);
+                        <div class="gallery-title d-flex flex-row gap-2">
+                            <picture class="rounded float-start rounded-circle align-self-center">
+                                ${prompt.author_avatar ? `
+                                <img src="data:image/png;base64,${prompt.author_avatar}" alt="User Avatar" class="rounded-circle shadow-sm" width="40" height="40">` : `
+                                <img src="/assets/images/default-avatar.png" alt="Default Avatar" class="rounded-circle shadow-sm" width="40" height="40">`}
+                            </picture>
+                            <div class="d-flex flex-column gap-0 flex-grow-1 align-self-center">
+                                <div class="d-flex flex-row justify-content-between gap-2">
+                                    <p class="mb-0 ${prompt.is_nsfw ? 'text-danger' : 'text-info'}" style="font-size: 13px;">${prompt.title}</p>
+                                    <span class="ms-auto nsfw_label badge bg-danger small align-self-center">NSFW</span>
+                                </div>
+                                <span class="text-muted" style="font-size: 12px;">${prompt.author}</span>
+                            </div>
+                        </div>
+
+                        ${prompt.tagging.map(tagging => `
+                        <a href="javascript:void(0);" class="gallery-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="${tagging.category.description}">
+                            ${tagging.category.svg_icon}
+                        </a>`).join('')}
+                    </div>`);
+
+
+        if (randomCard) {
+            renderCardBackground($('.gallery-card', card), randomCard.id).then(function(imageUrl) {
+                card.find('.gallery-card').css('background-image', `url(${imageUrl})`);
+            });
+        } else {
+            card.find('.gallery-card').css('background-image', 'url(/assets/images/default-card.jpeg)')
+                .removeClass('gallery-loading')
+        }
 
         if (position === 'prepend') {
             $('#prompts_container', document).prepend(card);
