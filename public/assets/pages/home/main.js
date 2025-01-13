@@ -49,6 +49,8 @@ const MAIN = function() {
             });
         });
 
+
+
         handlePromptContents();
     }
 
@@ -121,7 +123,7 @@ const MAIN = function() {
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
-                                <div class="d-flex flex-row justify-content-center gallery-bullets">
+                                <div class="gallery-bullets">
                                     ${prompt.cards.length > 1 ? prompt.cards.map((card, index) => `<a href="javascript:voide(0);" data-id="${card.id}" class="gallery-bullet ${index === randomIndex ? 'active' : ''}">.</a>`).join('') : ''}
                                 </div>
                             </div>
